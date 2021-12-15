@@ -3,7 +3,7 @@
 	"displayName": "MPU7 Assembly Syntax Highlighter",
 	"publisher": "RedCMD",
 	"description": "Syntax Highlighting for ModPunchTree's MPU7 Assembly code",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"repository": {
 		"url": "https://github.com/RedCMD/MPU7-Syntax-Highlighter"
 	},
