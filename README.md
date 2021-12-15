@@ -1,5 +1,6 @@
 # MPU7-Syntax-Highlighter
 VScode syntax highlighting extension for the MPU7 assembly language by Mod Punchtree
+![example-urcl-code](https://github.com/RedCMD/MPU7-Syntax-Highlighter/blob/main/images/Example-Programs.png?raw=true)	
 
 ## Requirements
 This extension was designed with VSCode's default Dark+ theme in mind.  

@@ -3,7 +3,8 @@
 	"name": "MPU7 Syntax",
 	"scopeName": "source.redcmd.syntax.mpu7",
 	"patterns": [
-		{ "include": "#comment"			},
+		{ "include": "#comment-block"	},
+		{ "include": "#comment-line"	},
 		{ "include": "#label"			},
 		{ "include": "#assembly"		},
 		{ "include": "#bracket"			},
@@ -11,7 +12,13 @@
 		{ "include": "#invalid"			}
 	],
 	"repository": {
-		"comment": {
+		"comment-block": {
+			"begin": "/\\*",
+			"end": "\\*/",
+			"name": "comment",
+			"contentName": "comment"
+		},
+		"comment-line": {
 			"match": "//.*$",
 			"name": "comment"
 		},
