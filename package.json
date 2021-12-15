@@ -1,0 +1,45 @@
+{
+	"name": "mpu7-assembly-syntax-highlighter",
+	"displayName": "MPU7 Assembly Syntax Highlighter",
+	"publisher": "RedCMD",
+	"description": "Syntax Highlighting for ModPunchTree's MPU7 Assembly code",
+	"version": "1.0.0",
+	"repository": {
+		"url": "https://github.com/ModPunchtree/MPU7"
+	},
+	"icon": "images/ModPunchTree-logo-icon.png",
+	"engines": {
+		"vscode": "^1.47.0"
+	},
+	"keywords": [
+		"mpu",
+		"mpu7",
+		"modpunchtree",
+		"theredcmd"
+	],
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": ".mpu7",
+				"aliases": [
+					"RedCMD.MPU7"
+				],
+				"extensions": [
+					".mpu7",
+					".mpu"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": ".mpu7",
+				"scopeName": "source.redcmd.syntax.mpu7",
+				"path": "./syntaxes/mpu7.tmLanguage.json"
+			}
+		]
+	}
+}

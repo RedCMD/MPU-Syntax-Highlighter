@@ -1,0 +1,99 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "MPU7 Syntax",
+	"scopeName": "source.redcmd.syntax.mpu7",
+	"patterns": [
+		{ "include": "#comment"			},
+		{ "include": "#label"			},
+		{ "include": "#assembly"		},
+		{ "include": "#bracket"			},
+		{ "include": "#semi-colon"		},
+		{ "include": "#invalid"			}
+	],
+	"repository": {
+		"comment": {
+			"match": "//.*$",
+			"name": "comment"
+		},
+		"label": {
+			"match": "\\B\\.\\w+\\b",
+			"name": "support.function"
+		},
+		"assembly": {
+			"match": "\\b(?:ADC|ADD|AND|CLR|DEC|FFG|FLG|HLT|IMM|INC|JMP|LOD|LSC|LSH|MOV|NEG|NOP|NOR|NOT|PRT|RET|RPT|RSH|RST|SBB|SETX|SETY|SPT|STL|STR|SUB|VSH)\\b",
+			"name": "keyword"
+		},
+		"bracket": {
+			"match": "(\\()(.*?)(\\))",
+			"captures": {
+				"1": { "name": "brackets" },
+				"2": { "patterns": [ { "include": "#comma" }, { "include": "#operand" } ] },
+				"3": { "name": "brackets" }
+			}
+		},
+		"operand": {
+			"patterns": [
+				{ "include": "#label"		},
+				{ "include": "#character"	},
+				{ "include": "#relative"	},
+				{ "include": "#macro"		},
+				{ "include": "#register"	},
+				{ "include": "#numeric"		},
+				{ "include": "#invalid"		}
+			]
+		},
+		"register": {
+			"match": "\\b(?:CF|R\\d|R10|SR|SP|RP|X|Y|IN|DS)\\b",
+			"name": "variable"
+		},
+		"relative": {
+			"match": "~[+-]([\\h]*)",
+			"captures": {
+				"0": { "name": "constant.numeric" },
+				"1": { "patterns": [ { "include": "#numeric" } ] }
+			}
+		},
+		"numeric": {
+			"patterns": [
+				{ "include": "#hexadecimal"	},
+				{ "include": "#binary"		},
+				{ "include": "#decimal"		}
+			]
+		},
+		"hexadecimal": {
+			"match": "\\b0x\\h{,2}\\b",
+			"name": "constant.numeric.hexidecmal"
+		},
+		"binary": {
+			"match": "\\b0b[01]{,8}\\b",
+			"name": "constant.numeric.binary"
+		},
+		"decimal": {
+			"match": "\\b25[0-5]|2[0-4]\\d|1?\\d{1,2}\\b",
+			"name": "constant.numeric.decimal"
+		},
+		"character": {
+			"match": "'.'",
+			"name": "string"
+		},
+		"comma": {
+			"match": ",",
+			"name": "comma"
+		},
+		"semi-colon": {
+			"match": ";",
+			"name": "colon"
+		},
+		"macro": {
+			"match": "(@)\\w+\\b",
+			"captures": {
+				"0": { "name": "keyword.control" },
+				"1": { "name": "markup.italic" }
+			}
+		},
+		"invalid": {
+			"match": "\\S",
+			"name": "invalid"
+		}
+	}
+}
