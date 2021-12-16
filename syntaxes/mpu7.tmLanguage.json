@@ -31,11 +31,11 @@
 			"name": "keyword"
 		},
 		"bracket": {
-			"match": "(\\()(.*?)(\\))",
+			"match": "(\\()([^)]*)(\\))?",
 			"captures": {
-				"1": { "name": "brackets" },
+				"1": { "name": "bracket" },
 				"2": { "patterns": [ { "include": "#comma" }, { "include": "#operand" } ] },
-				"3": { "name": "brackets" }
+				"3": { "name": "bracket" }
 			}
 		},
 		"operand": {
@@ -76,7 +76,7 @@
 			"name": "constant.numeric.binary"
 		},
 		"decimal": {
-			"match": "\\b25[0-5]|2[0-4]\\d|1?\\d{1,2}\\b",
+			"match": "\\b(?:25[0-5]|2[0-4]\\d|1?\\d{1,2})\\b",
 			"name": "constant.numeric.decimal"
 		},
 		"character": {

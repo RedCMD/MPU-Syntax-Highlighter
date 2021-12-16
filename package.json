@@ -15,6 +15,7 @@
 		"mpu",
 		"mpu7",
 		"modpunchtree",
+		"mod punchtree",
 		"theredcmd"
 	],
 	"categories": [
@@ -41,5 +42,11 @@
 				"path": "./syntaxes/mpu7.tmLanguage.json"
 			}
 		]
+	},
+	"__metadata": {
+		"id": "5318c1f8-4f03-4be2-89c1-5cb2d0799d43",
+		"publisherDisplayName": "RedCMD",
+		"publisherId": "6d229866-9775-4c10-9f86-f22eaa70eb66",
+		"isPreReleaseVersion": false
 	}
 }
