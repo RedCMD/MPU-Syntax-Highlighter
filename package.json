@@ -5,6 +5,7 @@
 	"description": "Syntax Highlighting for ModPunchTree's MPU7 Assembly code",
 	"version": "1.0.1",
 	"repository": {
+		"type": "git",
 		"url": "https://github.com/RedCMD/MPU7-Syntax-Highlighter"
 	},
 	"icon": "images/ModPunchTree-logo-icon.png",
