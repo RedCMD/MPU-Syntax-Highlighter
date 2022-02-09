@@ -46,8 +46,10 @@
 	},
 	"__metadata": {
 		"id": "5318c1f8-4f03-4be2-89c1-5cb2d0799d43",
-		"publisherDisplayName": "RedCMD",
 		"publisherId": "6d229866-9775-4c10-9f86-f22eaa70eb66",
-		"isPreReleaseVersion": false
+		"publisherDisplayName": "RedCMD",
+		"isPreReleaseVersion": false,
+		"preRelease": false,
+		"installedTimestamp": 1640067985723
 	}
 }
