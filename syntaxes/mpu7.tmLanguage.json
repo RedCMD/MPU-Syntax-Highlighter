@@ -23,7 +23,7 @@
 			"name": "comment"
 		},
 		"label": {
-			"match": "\\B\\.\\w+\\b",
+			"match": "\\B\\.\\w+",
 			"name": "support.function"
 		},
 		"assembly": {
@@ -31,7 +31,7 @@
 			"name": "keyword"
 		},
 		"bracket": {
-			"match": "(\\()([^)]*)(\\))?",
+			"match": "(\\()([^;)]*)(\\))?",
 			"captures": {
 				"1": { "name": "bracket" },
 				"2": { "patterns": [ { "include": "#comma" }, { "include": "#operand" } ] },
@@ -60,7 +60,7 @@
 			"name": "support.class"
 		},
 		"relative": {
-			"match": "~[+-]([\\h]*)",
+			"match": "~[+-](\\w*)",
 			"captures": {
 				"0": { "name": "constant.numeric" },
 				"1": { "patterns": [ { "include": "#numeric" } ] }
@@ -70,19 +70,20 @@
 			"patterns": [
 				{ "include": "#hexadecimal"	},
 				{ "include": "#binary"		},
-				{ "include": "#decimal"		}
+				{ "include": "#decimal"		},
+				{ "include": "#invalid"		}
 			]
 		},
 		"hexadecimal": {
-			"match": "\\b0x\\h{,2}\\b",
+			"match": "\\b0x\\h{,2}",
 			"name": "constant.numeric.hexidecmal"
 		},
 		"binary": {
-			"match": "\\b0b[01]{,8}\\b",
+			"match": "\\b0b[01]{,8}",
 			"name": "constant.numeric.binary"
 		},
 		"decimal": {
-			"match": "\\b(?:25[0-5]|2[0-4]\\d|1?\\d{1,2})\\b",
+			"match": "\\b(?:25[0-5]|2[0-4]\\d|1?\\d{1,2})",
 			"name": "constant.numeric.decimal"
 		},
 		"character": {
