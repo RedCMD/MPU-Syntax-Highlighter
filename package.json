@@ -22,6 +22,11 @@
 	"categories": [
 		"Programming Languages"
 	],
+	"activationEvents": [
+		"onLanguage:.mpu7",
+		"workspaceContains:*.mpu?"
+	],
+	"main": "./out/extension.js",
 	"contributes": {
 		"languages": [
 			{
