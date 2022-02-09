@@ -27,7 +27,7 @@
 			"name": "support.function"
 		},
 		"assembly": {
-			"match": "\\b(?:ADC|ADD|AND|CLR|DEC|FFG|FLG|HLT|IMM|INC|JMP|LOD|LSC|LSH|MOV|NEG|NOP|NOR|NOT|PRT|RET|RPT|RSH|RST|SBB|SETX|SETY|SPT|STL|STR|SUB|VSH)\\b",
+			"match": "\\b(?>ACF|ADC|ADD|AND|CLR|DEC|FFG|FLG|HLT|IMM|INC|JMP|LOD|LSC|LSH|MOV|NEG|NOP|NOR|NOT|PRT|RET|RPT|RSH|RST|SBB|SETX|SETY|SPT|STL|STR|SUB|VSH)\\b",
 			"name": "keyword"
 		},
 		"bracket": {
