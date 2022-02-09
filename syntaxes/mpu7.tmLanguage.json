@@ -85,7 +85,7 @@
 			"name": "constant.numeric.decimal"
 		},
 		"character": {
-			"match": "'.'",
+			"match": "'.[^')]*'",
 			"name": "string"
 		},
 		"comma": {
