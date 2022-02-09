@@ -47,11 +47,12 @@
 				{ "include": "#register"	},
 				{ "include": "#numeric"		},
 				{ "include": "#port"		},
+				{ "include": "#unknown"		},
 				{ "include": "#invalid"		}
 			]
 		},
 		"register": {
-			"match": "\\b(?:CF|R\\d|R10|SR|SP|RP|X|Y|IN|DS)\\b",
+			"match": "(?<!\\w)(?>!?(?>CF|DS|R\\d|R10|RP|SR|SP|X|Y|ZF|ZR)|IN|NE|OD|RET)\\b",
 			"name": "variable"
 		},
 		"port": {
@@ -87,6 +88,10 @@
 		"character": {
 			"match": "'.[^')]*'",
 			"name": "string"
+		},
+		"unknown": {
+			"match": "\\w+",
+			"name": "variable markup.italic"
 		},
 		"comma": {
 			"match": ",",
