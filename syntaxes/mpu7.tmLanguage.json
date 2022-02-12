@@ -52,7 +52,7 @@
 			]
 		},
 		"register": {
-			"match": "(?<!\\w)(?>!?(?>CF|DS|R\\d|R10|RP|SR|SP|X|Y|ZF|ZR)|IN|NE|OD|RET)\\b",
+			"match": "(?<!\\w)(?>!?(?>CF|DS|R10|R\\d|RP|SR|SP|X|Y|ZF|ZR)|IN|NE|OD|RET)\\b",
 			"name": "variable"
 		},
 		"port": {
