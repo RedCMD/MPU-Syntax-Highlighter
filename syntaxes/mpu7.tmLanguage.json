@@ -7,6 +7,7 @@
 		{ "include": "#comment-line"	},
 		{ "include": "#label"			},
 		{ "include": "#assembly"		},
+		{ "include": "#define"			},
 		{ "include": "#bracket"			},
 		{ "include": "#semi-colon"		},
 		{ "include": "#invalid"			}
@@ -29,6 +30,14 @@
 		"assembly": {
 			"match": "\\b(?>ACF|ADC|ADD|AND|CLR|DEC|FFG|FLG|HLT|IMM|INC|JMP|LOD|LSC|LSH|MOV|NEG|NOP|NOR|NOT|PRT|RET|RPT|RSH|RST|SBB|SETX|SETY|SPT|STL|STR|SUB|VSH)\\b",
 			"name": "keyword"
+		},
+		"define": {
+			"match": "(?i)^\\s*(@DEFINE)\\b(?>\\s+(\\S+)(?>\\s+(.+))?)?",
+			"captures": {
+				"1": { "name": "keyword.control" },
+				"2": { "patterns": [ { "include": "#string" } ] },
+				"3": { "patterns": [ { "include": "#operand" } ] }
+			}
 		},
 		"bracket": {
 			"match": "(\\()([^;)]*)(\\))?",
@@ -63,15 +72,14 @@
 			"match": "~[+-](\\w*)",
 			"captures": {
 				"0": { "name": "constant.numeric" },
-				"1": { "patterns": [ { "include": "#numeric" } ] }
+				"1": { "patterns": [ { "include": "#numeric" }, { "include": "#invalid" } ] }
 			}
 		},
 		"numeric": {
 			"patterns": [
 				{ "include": "#hexadecimal"	},
 				{ "include": "#binary"		},
-				{ "include": "#decimal"		},
-				{ "include": "#invalid"		}
+				{ "include": "#decimal"		}
 			]
 		},
 		"hexadecimal": {
@@ -90,8 +98,12 @@
 			"match": "'.[^')]*'",
 			"name": "string"
 		},
-		"unknown": {
+		"string": {
 			"match": "\\w+",
+			"name": "string"
+		},
+		"unknown": {
+			"match": "\\b\\w+\\b",
 			"name": "variable markup.italic"
 		},
 		"comma": {
