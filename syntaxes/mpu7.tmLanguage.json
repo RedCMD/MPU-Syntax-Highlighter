@@ -3,25 +3,28 @@
 	"name": "MPU7 Syntax",
 	"scopeName": "source.redcmd.syntax.mpu7",
 	"patterns": [
-		{ "include": "#comment-block"	},
-		{ "include": "#comment-line"	},
-		{ "include": "#label"			},
-		{ "include": "#assembly"		},
-		{ "include": "#define"			},
-		{ "include": "#bracket"			},
-		{ "include": "#semi-colon"		},
-		{ "include": "#invalid"			}
+		{ "include": "#comment"		},
+		{ "include": "#label"		},
+		{ "include": "#assembly"	},
+		{ "include": "#define"		},
+		{ "include": "#bracket"		},
+		{ "include": "#semi-colon"	},
+		{ "include": "#invalid"		}
 	],
 	"repository": {
-		"comment-block": {
-			"begin": "/\\*",
-			"end": "\\*/",
-			"name": "comment",
-			"contentName": "comment"
-		},
-		"comment-line": {
-			"match": "//.*$",
-			"name": "comment"
+		"comment": {
+			"patterns": [
+				{
+					"begin": "/\\*",
+					"end": "\\*/",
+					"name": "comment",
+					"contentName": "comment"
+				},
+				{
+					"match": "//.*$",
+					"name": "comment"
+				}
+			]
 		},
 		"label": {
 			"match": "\\B\\.\\w+",
@@ -32,12 +35,17 @@
 			"name": "keyword"
 		},
 		"define": {
-			"match": "(?i)^\\s*(@DEFINE)\\b(?>\\s+(\\S+)(?>\\s+(.+))?)?",
-			"captures": {
-				"1": { "name": "keyword.control" },
-				"2": { "patterns": [ { "include": "#string" } ] },
-				"3": { "patterns": [ { "include": "#operand" } ] }
-			}
+			"begin": "(?i)(@DEFINE)\\b",
+			"end": "$",
+			"beginCaptures": { "0": { "name": "keyword.control" } },
+			"patterns": [
+				{
+					"match": "(?<=\\G\\s+)\\w+",
+					"name": "string"
+				},
+				{ "include": "#comment" },
+				{ "include": "#operand" }
+			]
 		},
 		"bracket": {
 			"match": "(\\()([^;)]*)(\\))?",
