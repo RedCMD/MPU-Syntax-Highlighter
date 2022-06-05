@@ -6,6 +6,7 @@
 		{ "include": "#comment"		},
 		{ "include": "#label"		},
 		{ "include": "#assembly"	},
+		{ "include": "#assembly?"	},
 		{ "include": "#define"		},
 		{ "include": "#bracket"		},
 		{ "include": "#semi-colon"	},
@@ -33,6 +34,11 @@
 		"assembly": {
 			"match": "\\b(?>NOP|RST|ADD|ADC|SUB|SBB|MOV|IMM|INC|DEC|NEG|LSH|LSC|LCF|RCF|NOR|AND|NOT|FLG|SETX|SETY|PRT|VSH|SPT|RPT|HLT|JMP|RET|STL|FFG|CLR|STR|LOD|OR|NAND|DSL|CMP)\\b",
 			"name": "keyword"
+		},
+		"assembly?": {
+			"comment": "Unknown/future assembly instructions. Better than marking as invalid",
+			"match": "\\b\\w+",
+			"name": "keyword emphasis"
 		},
 		"define": {
 			"begin": "(?i)@DEFINE\\b",
