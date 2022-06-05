@@ -1,0 +1,11 @@
+.vscode/**
+.vscode-test/**
+_old/**
+_Backups/**
+test files/**
+.gitignore
+vsc-extension-quickstart.md
+.zip
+.old/**
+.git/**
+.github/**

@@ -1,0 +1,137 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "MPU8 Syntax",
+	"scopeName": "source.redcmd.syntax.mpu8",
+	"patterns": [
+		{ "include": "#comment"		},
+		{ "include": "#label"		},
+		{ "include": "#assembly"	},
+		{ "include": "#define"		},
+		{ "include": "#bracket"		},
+		{ "include": "#semi-colon"	},
+		{ "include": "#invalid"		}
+	],
+	"repository": {
+		"comment": {
+			"patterns": [
+				{
+					"begin": "/\\*",
+					"end": "\\*/",
+					"name": "comment",
+					"contentName": "comment"
+				},
+				{
+					"match": "//.*$",
+					"name": "comment"
+				}
+			]
+		},
+		"label": {
+			"match": "\\B\\.\\w+",
+			"name": "support.function"
+		},
+		"assembly": {
+			"match": "\\b(?>NOP|RST|ADD|ADC|SUB|SBB|MOV|IMM|INC|DEC|NEG|LSH|LSC|LCF|RCF|NOR|AND|NOT|FLG|SETX|SETY|PRT|VSH|SPT|RPT|HLT|JMP|RET|STL|FFG|CLR|STR|LOD|OR|NAND|DSL|CMP)\\b",
+			"name": "keyword"
+		},
+		"define": {
+			"begin": "(?i)@DEFINE\\b",
+			"end": "$",
+			"beginCaptures": { "0": { "name": "keyword.control" } },
+			"patterns": [
+				{
+					"match": "(?<=\\G\\s+)\\w+",
+					"name": "string"
+				},
+				{ "include": "#comment" },
+				{ "include": "#operand" }
+			]
+		},
+		"bracket": {
+			"match": "(\\()([^;)]*)(\\))?",
+			"captures": {
+				"1": { "name": "bracket" },
+				"2": { "patterns": [ { "include": "#comma" }, { "include": "#operand" } ] },
+				"3": { "name": "bracket" }
+			}
+		},
+		"operand": {
+			"patterns": [
+				{ "include": "#label"		},
+				{ "include": "#character"	},
+				{ "include": "#relative"	},
+				{ "include": "#macro"		},
+				{ "include": "#register"	},
+				{ "include": "#numeric"		},
+				{ "include": "#port"		},
+				{ "include": "#unknown"		},
+				{ "include": "#invalid"		}
+			]
+		},
+		"register": {
+			"match": "(?<!\\w)(?>!?(?>CF|DS|R1[0-2]|R\\d|RP|SR|SP|X|Y|ZF|ZR)|IN|NE|OD|RET)\\b",
+			"name": "variable"
+		},
+		"port": {
+			"match": "\\B%\\w*",
+			"name": "support.class"
+		},
+		"relative": {
+			"match": "~[+-](\\w*)",
+			"captures": {
+				"0": { "name": "constant.numeric" },
+				"1": { "patterns": [ { "include": "#numeric" }, { "include": "#invalid" } ] }
+			}
+		},
+		"numeric": {
+			"patterns": [
+				{ "include": "#hexadecimal"	},
+				{ "include": "#binary"		},
+				{ "include": "#decimal"		}
+			]
+		},
+		"hexadecimal": {
+			"match": "\\b0x\\h{,2}",
+			"name": "constant.numeric.hexidecmal"
+		},
+		"binary": {
+			"match": "\\b0b[01]{,8}",
+			"name": "constant.numeric.binary"
+		},
+		"decimal": {
+			"match": "\\b(?:25[0-5]|2[0-4]\\d|1?\\d{1,2})",
+			"name": "constant.numeric.decimal"
+		},
+		"character": {
+			"match": "'.[^')]*'",
+			"name": "string"
+		},
+		"string": {
+			"match": "\\w+",
+			"name": "string"
+		},
+		"unknown": {
+			"match": "\\b\\w+\\b",
+			"name": "variable markup.italic"
+		},
+		"comma": {
+			"match": ",",
+			"name": "comma"
+		},
+		"semi-colon": {
+			"match": ";",
+			"name": "colon"
+		},
+		"macro": {
+			"match": "(@)\\w+\\b",
+			"captures": {
+				"0": { "name": "keyword.control" },
+				"1": { "name": "markup.italic" }
+			}
+		},
+		"invalid": {
+			"match": "\\S",
+			"name": "invalid"
+		}
+	}
+}

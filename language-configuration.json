@@ -7,21 +7,20 @@
 	},
 	// symbols used as brackets for indentation
 	"brackets": [
-		["/*", "*/"],
-		["(", ")"]
+		[ "/*", "*/" ],
+		[ "(", ")" ]
 	],
 	// symbols that are auto closed when typing
 	"autoClosingPairs": [
-		{ "open": "/*", "close": "*/", "notIn": ["string", "comment"] },
-		{ "open": "(", "close": ")", "notIn": ["string", "comment"] },
-		{ "open": "'", "close": "'", "notIn": ["string", "comment"] }
+		[ "/*", "*/" ],
+		[ "(", ")" ]
 	],
 	// symbols that can be used to surround a selection
 	"surroundingPairs": [
-		{ "open": "(", "close": ")", "notIn": ["string", "comment"] },
-		{ "open": "'", "close": "'", "notIn": ["string", "comment"] }
+		[ "(", ")" ],
+		[ "'", "'" ]
 	],
-	"autoCloseBefore": ",;) \n\t",
+	"autoCloseBefore": ",;) \t\n",
 	"folding": {
 		"markers": {
 			"start": "^\\s*/\\*.*$",
@@ -32,5 +31,5 @@
 		"increaseIndentPattern": "^\\.\\w*\\s*(/\\*.*?\\*/\\s*)*(//.*)?$|^[^;]*;[^;]*$",
 		"decreaseIndentPattern": "^\\s*\\.$"
 	},
-	"wordPattern": "(?<=(\\*/|[(,])\\s*)(\\~\\+?\\d*|[Rr]\\d?|X|Y|DS?|@\\w*)(?=\\s*(/[/*]|[),]))|(?<=(^|\\*/|[);])\\s*)[a-zA-Z]+(?=\\s*($|/[/*]|[(;]))|(?<=(^|\\*/|[(,])\\s*)\\.\\w*(?=\\s*($|/[/*]|[),]))"
+	"wordPattern": "(?<=(\\*/|[(,])\\s*)(\\~\\+?\\d*|R\\d?|X|Y|DS?|@\\w*)(?=\\s*(/[/*]|[),]))|(?<=(^|\\*/|[);])\\s*)[a-zA-Z]+(?=\\s*($|/[/*]|[(;]))|(?<=(^|\\*/|[(,])\\s*)\\.\\w*(?=\\s*($|/[/*]|[),]))"
 }

@@ -160,8 +160,9 @@ const DefinitionProvider = {
 
 
 const fileSelector = [
-	{ scheme: 'file', language:	'.mpu7'			},
-	{ scheme: 'file', pattern:	'**/*mpu?'		}
+	{ scheme: 'file', language:	'mpu7'			},
+	{ scheme: 'file', language:	'mpu8'			},
+	{ scheme: 'file', pattern:	'**/*.mpu?'		}
 ];
 // main()
 function activate(context) {

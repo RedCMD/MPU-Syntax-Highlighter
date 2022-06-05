@@ -1,5 +1,5 @@
 # MPU7-Syntax-Highlighter
-VScode syntax highlighting extension for the MPU7 assembly language by Mod Punchtree  
+VScode syntax highlighting extension for the MPU assembly language by Mod Punchtree  
 Now has `.label` definitions and referencing  
 ![example-urcl-code](https://github.com/RedCMD/MPU7-Syntax-Highlighter/blob/main/images/Example-Programs.png?raw=true)	
 

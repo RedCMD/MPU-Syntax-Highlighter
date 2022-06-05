@@ -1,6 +1,6 @@
 {
 	"name": "mpu7-assembly-syntax-highlighter",
-	"displayName": "MPU7 Assembly Syntax Highlighter",
+	"displayName": "MPU Assembly Syntax Highlighter",
 	"publisher": "RedCMD",
 	"description": "Syntax Highlighting for ModPunchTree's MPU7 Assembly code",
 	"version": "1.3.1",
@@ -15,27 +15,39 @@
 	"keywords": [
 		"mpu",
 		"mpu7",
+		"mpu8",
 		"modpunchtree",
-		"mod punchtree",
-		"theredcmd"
+		"mod punchtree"
 	],
 	"categories": [
 		"Programming Languages"
 	],
 	"activationEvents": [
 		"onLanguage:.mpu7",
+		"onLanguage:.mpu8",
 		"workspaceContains:*.mpu?"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"languages": [
 			{
-				"id": ".mpu7",
+				"id": "mpu7",
 				"aliases": [
-					"RedCMD.MPU7"
+					"MPU7"
 				],
 				"extensions": [
 					".mpu7",
+					".mpu"
+				],
+				"configuration": "./language-configuration.json"
+			},
+			{
+				"id": "mpu8",
+				"aliases": [
+					"MPU8"
+				],
+				"extensions": [
+					".mpu8",
 					".mpu"
 				],
 				"configuration": "./language-configuration.json"
@@ -43,9 +55,14 @@
 		],
 		"grammars": [
 			{
-				"language": ".mpu7",
+				"language": "mpu7",
 				"scopeName": "source.redcmd.syntax.mpu7",
 				"path": "./syntaxes/mpu7.tmLanguage.json"
+			},
+			{
+				"language": "mpu8",
+				"scopeName": "source.redcmd.syntax.mpu8",
+				"path": "./syntaxes/mpu8.tmLanguage.json"
 			}
 		]
 	},
