@@ -9,7 +9,8 @@ Other themes may work with various successes.
 
 ### For more information
 * [Discord Server](https://discord.gg/Nv8jzWg5j8)
-* [Google Sheet - list of all instructions](https://docs.google.com/spreadsheets/d/1fgXPalCBTGg-X3QGXmNagxAMHoiOW_9nbOgaJl7fFoY/edit?usp=sharing)
+* [Google Sheet - list of all mpu7 instructions](https://docs.google.com/spreadsheets/d/1fgXPalCBTGg-X3QGXmNagxAMHoiOW_9nbOgaJl7fFoY/edit?usp=sharing)
+* [Google Sheet - list of all mpu8 instructions](https://docs.google.com/spreadsheets/d/1KRoZNu5ic36-vcP-6llN8L27ZvLxW5ILiaOX5gcoAC4/edit?usp=sharing)
 * [Github - MPU7 Assembler](https://github.com/ModPunchtree/MPU7-Assembler)
 * [Github - Example programs](https://github.com/ModPunchtree/MPU7)
 * [Github - Repo of this extension](https://github.com/RedCMD/MPU7-Syntax-Highlighter.git)
