@@ -1,0 +1,15 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "MPU Hover Syntax",
+	"scopeName": "source.mpu",
+	"patterns": [
+		{ "include": "source.redcmd.syntax.mpu8#assembly" },
+		{ "include": "source.redcmd.syntax.mpu8#assembly?" },
+		{ "include": "source.redcmd.syntax.mpu8#define" },
+		{ "include": "source.redcmd.syntax.mpu8#bracket" },
+		{ "match": "\\)" },
+		{ "include": "source.redcmd.syntax.mpu8#semi-colon" },
+		{ "include": "source.redcmd.syntax.mpu8#comma" },
+		{ "include": "source.redcmd.syntax.mpu8#operand" }
+	]
+}

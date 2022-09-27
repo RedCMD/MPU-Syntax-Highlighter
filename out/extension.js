@@ -1,178 +1,66 @@
-'use strict';
-Object.defineProperty(exports, "__esModule", { value: true });
-const vscode = require("vscode");
+'use strict'
+Object.defineProperty(exports, "__esModule", { value: true })
+
+const vscode = require("vscode")
+
+// const DocumentFormattingEditProvider = require("./DocumentFormattingEditProvider.js").DocumentFormattingEditProvider
+const DocumentSemanticTokensProvider = require("./DocumentSemanticTokensProvider.js").DocumentSemanticTokensProvider
+const SemanticTokensLegend = require("./DocumentSemanticTokensProvider.js").SemanticTokensLegend
+const DocumentSymbolProvider = require("./DocumentSymbolProvider.js").DocumentSymbolProvider
+// const CompletionItemProvider = require("./CompletionItemProvider.js").CompletionItemProvider
+const DefinitionProvider = require("./DefinitionProvider.js").DefinitionProvider
+const ReferenceProvider = require("./ReferenceProvider.js").ReferenceProvider
+const CodelensProvider = require("./CodelensProvider.js").CodelensProvider
+const HoverProvider = require("./HoverProvider.js").HoverProvider
 
 
-function tokenizeDoc(document) {
-	const text = document.getText()
-	let tokens = []
-	let match = []
-	let regex = new RegExp([
-		/(?<comment_line>\/\/.*$)/,
-		/(?<comment_block>\/\*[\S\s]*?\*\/)/,	// match everything including newlines \r\n
-		/(?<char>'[^'\r\n]*')/,
-		/(?<=^\s*)(?<label_define>\.\w*)/,
-		/(?<label>\.\w*)/,
-	].map(function (r) { return r.source }).join('|'), 'dgim');
-		// 'd' enables `indices`; which allows extracting which named capture group matched the input
-		// 'g' enables global; which is required for how Im using `.exec()`
-		// 'i' enables case-insensitive `minheap` == `mINhEap` == `MINHEAP`
-		// 'm' enables multiline mode; allowing `^` to match the start of a line and `$` to match the end of a line
-		// ~~'s' enables the dot `.` to match new lines \r\n~~		// used `\r?\n` instead
 
-	// vscode.window.showInformationMessage(regex.toString())
-	while (match = regex.exec(text)) {
-		const captureGroups = Object.entries(match.indices.groups)
-		// find the name and matched text of the first (and only) matching capture group
-		for (var index = 0; index < captureGroups.length; index++)
-			if (captureGroups[index][1] != null)
-				break
-		// vscode.window.showInformationMessage(captureGroups[index][0])
-		const name = captureGroups[index][0]
-		const positionStart = document.positionAt(match.index)
-		const positionEnd = document.positionAt(match.index + match[0].length)
-		const range = new vscode.Range(positionStart, positionEnd)
-		const token = { name: name, symbol: match[0], range: range }
-		// vscode.window.showInformationMessage(JSON.stringify(token))
-		tokens.push(token)
-	}
-	
-	// vscode.window.showInformationMessage(JSON.stringify(tokens))
-	return tokens
+function nodeToVscodeRange(node) {
+	const startPosition = node.startPosition
+	const endPosition = node.endPosition
+
+	return new vscode.Range(
+		startPosition.row,
+		startPosition.column,
+		endPosition.row,
+		endPosition.column
+	)
 }
 
 
-function getLabels(document, option) {
-	let labels = []
-	const tokens = tokenizeDoc(document)
-	let token
-	
-	// option:0 all .labels
-	// option:1 only reference .labels
-	// option:2 only definition .labels
-	while (token = tokens.pop())
-		if ((option ^ 2 && token.name == 'label') || (option ^ 1 && token.name == 'label_define'))
-			labels.push({ document: document, range: token.range, symbol: token.symbol })
+const DocumentSelector = [
+	{ language: 'mpu7' },
+	{ language: 'mpu8' }
+]
 
-
-	// vscode.window.showInformationMessage(JSON.stringify(labels))
-	return labels
-}
-
-
-const CodelensProvider = {
-	provideCodeLenses(document, token) {
-		const labels = getLabels(document, 2)
-		// vscode.window.showInformationMessage(JSON.stringify(labels))
-		return labels
-
-		// tokenizeDoc(document)
-
-	},
-	resolveCodeLens(codeLens, token) {
-		const document = codeLens.document
-		const position = codeLens.range.start
-		const symbol = codeLens.symbol
-		let labels = getLabels(document, 1)
-		let label
-		let locations = []
-		let i = 0
-
-		while (label = labels.pop()) {
-			if (label.symbol == symbol) {
-				const location = new vscode.Location(document.uri, label.range)
-				locations.push(location)
-				i++
-			}
-		}
-		// if (i == 0) {
-		// 	while (label = codeLens.pop()) {
-		// 		if (label.symbol == symbol) {
-		// 			const location = new vscode.Location(document.uri, label.range)
-		// 			locations.push(location)
-		// 			i++
-		// 		}
-		// 	}
-		// 	if (i == 1)
-		// 		locations.pop()
-		// }
-		
-		codeLens.command = {
-			title: `Refs: ${i}`,
-			tooltip: `${codeLens.symbol}`,
-			command: 'editor.action.showReferences',
-			arguments: [
-				document.uri,
-				position,
-				locations
-			]
-		}
-		return codeLens
-	}
-}
-
-
-const ReferenceProvider = {
-	provideReferences(document, position, context, token) {
-		const range = document.getWordRangeAtPosition(position);	//`Word` is defined by "wordPattern" in `urcl.language-configuration.json`
-		const hoveredWord = document.getText(range);
-		const regexlabel = new RegExp(/^\.\w+$/m); // .label
-		if (regexlabel.test(hoveredWord)) {	// test if selected word is a .label
-			const tokens = tokenizeDoc(document)
-			let locations = []
-			
-			while (token = tokens.pop())
-				if (token.name.startsWith('label'))
-					if (token.symbol == hoveredWord)
-						locations.push(new vscode.Location(document.uri, token.range))
-			
-			if (!locations)
-				locations.push(new vscode.Location(document.uri, range))
-
-			return locations;
-		}
-	}
-}
-
-
-const DefinitionProvider = {
-	provideDefinition(document, position, token) {
-		const range = document.getWordRangeAtPosition(position);	//`Word` is defined by "wordPattern" in `urcl.language-configuration.json`
-		const hoveredWord = document.getText(range);
-		const regexlabel = new RegExp(/^\.\w+$/m); // .label
-		
-		if (regexlabel.test(hoveredWord)) {	// test if selected word is a .label
-			let labels = getLabels(document, 2)	// get a list of all labels in doc
-			let label
-			let locations = []
-			
-			while (label = labels.pop())
-				if (hoveredWord == label.symbol)	// test if .label in doc is same as selected .label
-					locations.push(new vscode.Location(document.uri, label.range))
-			
-			if (!locations)
-				locations.push(new vscode.Location(document.uri, range))
-
-			return locations;
-		}
-	}
-}
-
-
-const fileSelector = [
-	{ scheme: 'file', language:	'mpu7'			},
-	{ scheme: 'file', language:	'mpu8'			},
-	{ scheme: 'file', pattern:	'**/*.mpu?'		}
-];
 // main()
-function activate(context) {
-	context.subscriptions.push(vscode.languages.registerCodeLensProvider(fileSelector, CodelensProvider)); // overhead .label references
-	context.subscriptions.push(vscode.languages.registerReferenceProvider(fileSelector, ReferenceProvider)); // shift+F12 .label locations
-	context.subscriptions.push(vscode.languages.registerDefinitionProvider(fileSelector, DefinitionProvider)); // ctrl+click .label definition(s)
+async function activate(context) {
+	// vscode.window.showInformationMessage(JSON.stringify())
 
-	// vscode.window.showInformationMessage(JSON.stringify(context));s
+	const parseTreeExtension = vscode.extensions.getExtension("pokey.parse-tree")
+	if (parseTreeExtension == null)
+		throw new Error("Depends on pokey.parse-tree extension")
+	exports.parseTreeExtension = parseTreeExtension
+
+	const { registerLanguage } = await parseTreeExtension.activate() // functions() {...}; must be async!
+	const wasm = context.extensionPath + '\\out\\tree-sitter\\tree-sitter-mpu.wasm'
+	registerLanguage('mpu7', wasm)
+	registerLanguage('mpu8', wasm)
+
+
+
+	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)) // debug tree-sitter rules
+	context.subscriptions.push(vscode.languages.registerCodeLensProvider(DocumentSelector, CodelensProvider)); // overhead .label references
+	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)) // ctrl+click
+	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)) // ctrl+click / right click => references
+	// context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider)) // intellisense
+	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)) // breadcrumbs
+	// context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)) // right-click => format
+	context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)) // syntax highlighting
 }
 
+
+exports.nodeToVscodeRange = nodeToVscodeRange
 
 exports.activate = activate;
 function deactivate() { }

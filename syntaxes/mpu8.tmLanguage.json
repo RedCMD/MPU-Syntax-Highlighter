@@ -3,14 +3,14 @@
 	"name": "MPU8 Syntax",
 	"scopeName": "source.redcmd.syntax.mpu8",
 	"patterns": [
-		{ "include": "#comment"		},
-		{ "include": "#label"		},
-		{ "include": "#assembly"	},
-		{ "include": "#assembly?"	},
-		{ "include": "#define"		},
-		{ "include": "#bracket"		},
-		{ "include": "#semi-colon"	},
-		{ "include": "#invalid"		}
+		{ "include": "#comment" },
+		{ "include": "#label" },
+		{ "include": "#assembly" },
+		{ "include": "#assembly?" },
+		{ "include": "#define" },
+		{ "include": "#bracket" },
+		{ "include": "#semi-colon" },
+		{ "include": "#invalid" }
 	],
 	"repository": {
 		"comment": {
@@ -37,7 +37,7 @@
 		},
 		"assembly?": {
 			"comment": "Unknown/future assembly instructions. Better than marking as invalid",
-			"match": "\\b\\w+",
+			"match": "\\b[A-Z]{2,4}\\b",
 			"name": "keyword emphasis"
 		},
 		"define": {
@@ -57,21 +57,27 @@
 			"match": "(\\()([^;)]*)(\\))?",
 			"captures": {
 				"1": { "name": "bracket" },
-				"2": { "patterns": [ { "include": "#comma" }, { "include": "#operand" } ] },
+				"2": {
+					"patterns": [
+						{ "include": "#comma" },
+						{ "include": "#operand" }
+					]
+				},
 				"3": { "name": "bracket" }
 			}
 		},
 		"operand": {
 			"patterns": [
-				{ "include": "#label"		},
-				{ "include": "#character"	},
-				{ "include": "#relative"	},
-				{ "include": "#macro"		},
-				{ "include": "#register"	},
-				{ "include": "#numeric"		},
-				{ "include": "#port"		},
-				{ "include": "#unknown"		},
-				{ "include": "#invalid"		}
+				{ "include": "#comment" },
+				{ "include": "#label" },
+				{ "include": "#character" },
+				{ "include": "#relative" },
+				{ "include": "#macro" },
+				{ "include": "#register" },
+				{ "include": "#numeric" },
+				{ "include": "#port" },
+				{ "include": "#unknown" },
+				{ "include": "#invalid" }
 			]
 		},
 		"register": {
@@ -79,21 +85,26 @@
 			"name": "variable"
 		},
 		"port": {
-			"match": "\\B%\\w*",
+			"match": "%\\w*",
 			"name": "support.class"
 		},
 		"relative": {
 			"match": "~[+-](\\w*)",
 			"captures": {
 				"0": { "name": "constant.numeric" },
-				"1": { "patterns": [ { "include": "#numeric" }, { "include": "#invalid" } ] }
+				"1": {
+					"patterns": [
+						{ "include": "#numeric" },
+						{ "include": "#invalid" }
+					]
+				}
 			}
 		},
 		"numeric": {
 			"patterns": [
-				{ "include": "#hexadecimal"	},
-				{ "include": "#binary"		},
-				{ "include": "#decimal"		}
+				{ "include": "#hexadecimal" },
+				{ "include": "#binary" },
+				{ "include": "#decimal" }
 			]
 		},
 		"hexadecimal": {
@@ -109,7 +120,7 @@
 			"name": "constant.numeric.decimal"
 		},
 		"character": {
-			"match": "'.[^')]*'",
+			"match": "'.[^';)]*'",
 			"name": "string"
 		},
 		"string": {
@@ -129,7 +140,7 @@
 			"name": "colon"
 		},
 		"macro": {
-			"match": "(@)\\w+\\b",
+			"match": "(@)\\w*",
 			"captures": {
 				"0": { "name": "keyword.control" },
 				"1": { "name": "markup.italic" }

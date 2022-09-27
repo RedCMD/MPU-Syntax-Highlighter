@@ -23,9 +23,8 @@
 		"Programming Languages"
 	],
 	"activationEvents": [
-		"onLanguage:.mpu7",
-		"onLanguage:.mpu8",
-		"workspaceContains:*.mpu?"
+		"onLanguage:mpu7",
+		"onLanguage:mpu8"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -51,6 +50,9 @@
 					".mpu"
 				],
 				"configuration": "./language-configuration.json"
+			},
+			{
+				"id": "mpu"
 			}
 		],
 		"grammars": [
@@ -63,6 +65,11 @@
 				"language": "mpu8",
 				"scopeName": "source.redcmd.syntax.mpu8",
 				"path": "./syntaxes/mpu8.tmLanguage.json"
+			},
+			{
+				"language": "mpu",
+				"scopeName": "source.mpu",
+				"path": "./syntaxes/mpu.tmLanguage.json"
 			}
 		]
 	},
