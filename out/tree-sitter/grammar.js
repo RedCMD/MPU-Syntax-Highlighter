@@ -58,6 +58,7 @@ module.exports = grammar({
 		instruction: $ => choice(
 			token(
 				choice(
+					'ACF',
 					'NOP',
 					'RST',
 					'ADD',

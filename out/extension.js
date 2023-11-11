@@ -12,6 +12,7 @@ const DefinitionProvider = require("./DefinitionProvider.js").DefinitionProvider
 const ReferenceProvider = require("./ReferenceProvider.js").ReferenceProvider
 const CodelensProvider = require("./CodelensProvider.js").CodelensProvider
 const HoverProvider = require("./HoverProvider.js").HoverProvider
+const DiagnosticCollection = require("./DiagnosticCollection.js").DiagnosticCollection
 
 
 
@@ -25,6 +26,37 @@ function nodeToVscodeRange(node) {
 		endPosition.row,
 		endPosition.column
 	)
+}
+
+
+function subscribeToDocumentChanges(context, callback, Disposable, ...args) {
+	context.subscriptions.push(Disposable)
+
+	// if (vscode.window.activeTextEditor)
+	// 	if (vscode.languages.match(DocumentSelector, vscode.window.activeTextEditor.document))
+	// 		callback(vscode.window.activeTextEditor.document, Disposable, ...param)
+
+	vscode.window.visibleTextEditors.forEach(editor => {
+		if (vscode.languages.match(DocumentSelector, editor.document))
+			callback(editor.document, Disposable, ...args)
+	})
+
+	context.subscriptions.push(
+		vscode.window.onDidChangeActiveTextEditor(editor => {
+			if (editor)
+				if (vscode.languages.match(DocumentSelector, editor.document))
+					callback(editor.document, Disposable, ...args)
+		})
+	)
+
+	context.subscriptions.push(
+		vscode.workspace.onDidChangeTextDocument(editor => {
+			if (vscode.languages.match(DocumentSelector, editor.document))
+				callback(editor.document, Disposable, ...args)
+		})
+	)
+
+	context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(document => Disposable.delete(document.uri)))
 }
 
 
@@ -44,6 +76,7 @@ async function activate(context) {
 
 	const { registerLanguage } = await parseTreeExtension.activate() // functions() {...}; must be async!
 	const wasm = context.extensionPath + '\\out\\tree-sitter\\tree-sitter-mpu.wasm'
+	registerLanguage('mpu', wasm)
 	registerLanguage('mpu7', wasm)
 	registerLanguage('mpu8', wasm)
 
@@ -57,6 +90,9 @@ async function activate(context) {
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)) // breadcrumbs
 	// context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)) // right-click => format
 	context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)) // syntax highlighting
+	
+	subscribeToDocumentChanges(context, DiagnosticCollection, vscode.languages.createDiagnosticCollection("mpu")) // squiggle errors
+
 }
 
 
